@@ -40,6 +40,11 @@ public class Reserva {
 	public void setTransporte(MeioDeTransporte transporte) {
 		this.transporte = transporte;
 	}
+
+	@Override
+	public String toString() {
+		return "Reserva [destino=" + destino + ", data=" + data + ", transporte=" + transporte + "]";
+	}
 	
 	
 	

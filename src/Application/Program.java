@@ -28,10 +28,10 @@ public class Program {
 		String nome = sc.nextLine();
 		cliente = new Cliente(nome);
 		
-		
 		System.out.printf("%s, digite quantas reservas você irá realizar: ", nome);
 		int totalReservas = sc.nextInt();
 		sc.nextLine();
+		System.out.println();
 		
 		for (int i = 0; i < totalReservas; i++) {
 			

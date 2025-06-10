@@ -1,6 +1,7 @@
 package Entities;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class Reserva {
 	private String destino;
@@ -8,6 +9,8 @@ public class Reserva {
 	private double precoBase;
 	private double precoCalculado;
 	private MeioDeTransporte transporte;
+	
+	DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 	
 	public Reserva() {
 	}
@@ -65,8 +68,8 @@ public class Reserva {
 	public String toString() {
 		return "Reserva: (" +
 				"Destino: " + destino + " | " +
-				 "Data: " + data + " | " +
-				"Preço Base: " + precoBase + " | " +
+				 "Data: " + data.format(dtf) + " | " +
+				"Preço Base: R$" + precoBase + " | " +
 				 "Meio de Transporte: " + transporte + ")";
 	}
 

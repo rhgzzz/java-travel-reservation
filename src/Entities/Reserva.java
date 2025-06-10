@@ -6,6 +6,7 @@ public class Reserva {
 	private String destino;
 	private LocalDate data;
 	private double precoBase;
+	private double precoCalculado;
 	private MeioDeTransporte transporte;
 	
 	public Reserva() {
@@ -49,6 +50,15 @@ public class Reserva {
 
 	public void setTransporte(MeioDeTransporte transporte) {
 		this.transporte = transporte;
+	}
+	
+	public double getPrecoCalculado() {
+		return precoCalculado;
+	}
+	
+
+	public void setPrecoCalculado(double precoCalculado) {
+		this.precoCalculado = precoCalculado;
 	}
 
 	@Override

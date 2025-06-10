@@ -4,8 +4,10 @@ public class TransporteCarro implements MeioDeTransporte {
 
 	@Override
 	public double calcularValorFinal(double precoBase) {
-		// TODO Auto-generated method stub
-		return 0;
+		double tarifaMotorista = 50.0;
+		double valorViagem = tarifaMotorista + precoBase;
+		System.out.printf("Valor da viagem (R$%.2f Tarifa do motorista): R$%.2f%n", tarifaMotorista, valorViagem);
+		return valorViagem;
 	}
 
 }

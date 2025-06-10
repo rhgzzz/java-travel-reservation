@@ -5,15 +5,17 @@ import java.time.LocalDate;
 public class Reserva {
 	private String destino;
 	private LocalDate data;
+	private double precoBase;
 	private MeioDeTransporte transporte;
 	
 	public Reserva() {
 	}
 
-	public Reserva(String destino, LocalDate data, MeioDeTransporte transporte) {
+	public Reserva(String destino, LocalDate data, double precoBase, MeioDeTransporte transporte) {
 		super();
 		this.destino = destino;
 		this.data = data;
+		this.precoBase = precoBase;
 		this.transporte = transporte;
 	}
 
@@ -32,6 +34,14 @@ public class Reserva {
 	public void setData(LocalDate data) {
 		this.data = data;
 	}
+	
+	public double getPrecoBase() {
+		return precoBase;
+	}
+
+	public void setPrecoBase(double precoBase) {
+		this.precoBase = precoBase;
+	}
 
 	public MeioDeTransporte getTransporte() {
 		return transporte;
@@ -43,8 +53,14 @@ public class Reserva {
 
 	@Override
 	public String toString() {
-		return "Reserva [destino=" + destino + ", data=" + data + ", transporte=" + transporte + "]";
+		return "Reserva: (" +
+				"Destino: " + destino + " | " +
+				 "Data: " + data + " | " +
+				"Preço Base: " + precoBase + " | " +
+				 "Meio de Transporte: " + transporte + ")";
 	}
+
+	
 	
 	
 	

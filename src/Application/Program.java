@@ -9,9 +9,7 @@ import Entities.CarrinhoDeReservas;
 import Entities.Cliente;
 import Entities.MeioDeTransporte;
 import Entities.Reserva;
-import Services.TransporteAviao;
-import Services.TransporteCarro;
-import Services.TransporteOnibus;
+
 
 public class Program {
 
@@ -55,6 +53,8 @@ public class Program {
 		}
 		
 		cliente.getCarrinhoDeReservas().listarReservas();
+		cliente.getCarrinhoDeReservas().removerReserva(1);
+		
 	}
 
 }

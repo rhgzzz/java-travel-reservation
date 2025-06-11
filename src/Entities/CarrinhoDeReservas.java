@@ -2,6 +2,7 @@ package Entities;
 
 import java.util.ArrayList;
 import java.util.List;
+import Utils.ConsoleUtils;
 
 public class CarrinhoDeReservas {
 	
@@ -19,16 +20,18 @@ public class CarrinhoDeReservas {
 	}
 	
 	public void removerReserva(int index) {
+		
 		int indexAjustado = index - 1;
 			if (indexAjustado >= 0 && indexAjustado < carrinhoReservas.size()) {
 				carrinhoReservas.remove(indexAjustado);
 				System.out.printf("Reserva [%d] removida com sucesso!%n", index);
 				System.out.println("Carrinho de reservas ATUALIZADO! \n");
 				listarReservas();
+				ConsoleUtils.limparConsole();
+				
 			} else {
 				System.out.println("Número da reserva inválido!");
 			}
-		
 	}
 	
 	public double calcularTotal() {

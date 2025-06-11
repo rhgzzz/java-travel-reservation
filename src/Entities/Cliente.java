@@ -8,8 +8,12 @@ public class Cliente {
 	}
 
 	public Cliente(String nome) {
-		super();
 		this.nome = nome;
+	}
+	
+	public Cliente(CarrinhoDeReservas carrinhoDeReservas) {
+		super();
+		this.carrinhoDeReservas = carrinhoDeReservas;
 	}
 
 	public String getNome() {

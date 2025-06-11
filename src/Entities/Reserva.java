@@ -3,6 +3,10 @@ package Entities;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+import Services.TransporteAviao;
+import Services.TransporteCarro;
+import Services.TransporteOnibus;
+
 public class Reserva {
 	private String destino;
 	private LocalDate data;
@@ -22,7 +26,24 @@ public class Reserva {
 		this.precoBase = precoBase;
 		this.transporte = transporte;
 	}
-
+	
+	public void MostrarPrecoCalculado() {
+		Services.MeioDeTransporte meioDeTransporte;
+		
+		if (transporte == MeioDeTransporte.AVIAO) {
+			meioDeTransporte = new TransporteAviao();
+		}
+		else if (transporte == MeioDeTransporte.CARRO) {
+			meioDeTransporte = new TransporteCarro();
+		} 
+		else {
+			meioDeTransporte = new TransporteOnibus();
+		}
+		
+		meioDeTransporte.calcularValorFinal(precoBase);
+		System.out.println();
+	}
+	
 	public String getDestino() {
 		return destino;
 	}

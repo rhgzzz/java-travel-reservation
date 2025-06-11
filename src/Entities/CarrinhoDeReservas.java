@@ -16,8 +16,9 @@ public class CarrinhoDeReservas {
 	}
 	
 	public void listarReservas() {
-		for (Reserva reserva : carrinhoReservas) {
-			System.out.println(reserva);
+		for (int i = 0; i < carrinhoReservas.size(); i++) {
+			System.out.printf("[%d]" + carrinhoReservas.get(i) + "%n", i + 1 );
+			carrinhoReservas.get(i).MostrarPrecoCalculado();
 		}
 	}
 	

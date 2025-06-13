@@ -5,6 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import ServicesMeioDeTransporte.TransporteAviao;
+import ServicesMeioDeTransporte.TransporteCarro;
+import ServicesMeioDeTransporte.TransporteOnibus;
+
 
 
 public class CarrinhoDeReservas {
@@ -14,16 +18,26 @@ public class CarrinhoDeReservas {
 	Scanner sc = new Scanner (System.in);
 
 	public void listarReservas() {
+		
 		for (int i = 0; i < carrinhoReservas.size(); i++) {
 			System.out.printf("[%d] " + carrinhoReservas.get(i), i + 1 );
 			carrinhoReservas.get(i).MostrarPrecoCalculado();
-			if (carrinhoReservas.get(i).getTransporte() == MeioDeTransporte.AVIAO) {
-				System.out.printf("Valor da viagem (R$%.2f Taxa de embarque): R$%.2f%n%n", 440.0, carrinhoReservas.get(i).getPrecoCalculado());
-			} else if (carrinhoReservas.get(i).getTransporte() == MeioDeTransporte.CARRO) {
-				System.out.printf("Valor da viagem (R$%.2f Tarifa do motorista): R$%.2f%n%n", 50.0, carrinhoReservas.get(i).getPrecoCalculado());
-			} else {
-				System.out.printf("Valor da viagem (%d%% de desconto): R$%.2f%n%n", 30, carrinhoReservas.get(i).getPrecoCalculado());
+			
+			MeioDeTransporte transporte = carrinhoReservas.get(i).getTransporte();
+			
+			if (transporte == MeioDeTransporte.AVIAO) {
+				TransporteAviao aviao = new TransporteAviao();
+				System.out.printf("Valor da viagem (R$%.2f Taxa de embarque): R$%.2f%n%n",aviao.getTaxaEmbarque() , carrinhoReservas.get(i).getPrecoCalculado());
+			} 
+			else if (transporte == MeioDeTransporte.CARRO) {
+				TransporteCarro carro = new TransporteCarro();
+				System.out.printf("Valor da viagem (R$%.2f Tarifa do motorista): R$%.2f%n%n", carro.getTarifaMotorista(), carrinhoReservas.get(i).getPrecoCalculado());
+			} 
+			else {
+				TransporteOnibus onibus = new TransporteOnibus();
+				System.out.printf("Valor da viagem (%d%% de desconto): R$%.2f%n%n", onibus.getTaxaDesconto(), carrinhoReservas.get(i).getPrecoCalculado());
 			}
+			
 		}
 		
 	}

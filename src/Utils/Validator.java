@@ -1,5 +1,6 @@
 package Utils;
 
+import Exceptions.DestinoInvalidoException;
 import Exceptions.NomeInvalidoException;
 import Exceptions.NumeroReservaInvalidoException;
 
@@ -63,7 +64,27 @@ public class Validator {
 			throw new NumeroReservaInvalidoException("\n ⚠ A quantidade de reservas escolhidas para cadastrar deve ser entre 1 à 5 por vez! \n");
 		}
 		
-		
 	}
+	
+	public static void validarDestino(String destino) throws DestinoInvalidoException{
+		
+		if (destino.isBlank()) {
+			throw new DestinoInvalidoException("\n ⚠ Destino não pode estar vazio! \n");
+		}
+		
+		if (!destino.matches("^[\\p{L}\\s]+$")) {
+			throw new DestinoInvalidoException("\n ⚠ Destino não pode conter números nem símbolos! \n");
+		}
+		
+		if(destino.length() > 80 ) {
+			throw new DestinoInvalidoException("\n ⚠ Destino não pode conter mais de 80 caractéres! \n");
+		}
+		
+		if(destino.length() < 1) {
+			throw new DestinoInvalidoException("\n ⚠ Destino não pode conter menos de 1 caractér! \n");
+		}
+	}
+	
+	
 	
 }

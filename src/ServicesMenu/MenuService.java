@@ -8,6 +8,7 @@ import Entities.CarrinhoDeReservas;
 import Entities.Cliente;
 import Entities.MeioDeTransporte;
 import Entities.Reserva;
+import Exceptions.DestinoInvalidoException;
 import Exceptions.NomeInvalidoException;
 import Exceptions.NumeroReservaInvalidoException;
 import ServicesMetodoPagamento.MetodoPagamento;
@@ -26,8 +27,11 @@ public class MenuService {
 	public MenuService() {
 	}
 
+	
+	
 	public void cadastroReserva() {	
 		
+		// Cadastrando meu nome
 		while (true) {
 			try {
 				System.out.print("Digite o seu nome: ");
@@ -46,10 +50,11 @@ public class MenuService {
 			}
 		} 
 		
+		// Cadastrado a quantidade de reservas que posso fazer por vez!
+		
 		String numeroReservasString;
 		int numeroReservaInt;
 		while (true) {
-			
 			try {
 				System.out.printf("%s, digite quantas reservas você irá realizar: ", cliente.getNome());
 				numeroReservasString = sc.nextLine().trim();
@@ -67,12 +72,26 @@ public class MenuService {
 			}
 			
 		}
+		
 		System.out.println();
+		
+		// Cadastrando os dados da reserva
 		
 		for (int i = 0; i < numeroReservaInt; i++) {
 			System.out.printf("Dados da reserva [%d]: %n", i + 1);
-			System.out.print("Digite o destino de sua viagem: ");
-			String destino = sc.nextLine();
+			String destino;
+			while (true) {
+				try {
+					System.out.print("Digite o destino de sua viagem: ");
+					destino = sc.nextLine();
+					
+					Validator.validarDestino(destino);
+					
+					break;
+				} catch(DestinoInvalidoException e) {
+					System.out.println(e.getMessage());
+				}
+			}
 			
 			System.out.print("Digite a data da viagem (dd/MM/yyyy): ");
 			LocalDate data = LocalDate.parse(sc.nextLine(), dtf);

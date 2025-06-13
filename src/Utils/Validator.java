@@ -1,8 +1,11 @@
 package Utils;
 
 import Exceptions.NomeInvalidoException;
+import Exceptions.NumeroReservaInvalidoException;
 
 public class Validator {	
+	
+	
 	
 	public static void validarNome(String nome) throws NomeInvalidoException{
 		
@@ -24,7 +27,6 @@ public class Validator {
 	}
 	
 	public static String capitalizarNome(String nome) {
-		
 		// Dividi o nome por espaços
 	    String[] partes = nome.trim().toLowerCase().split("\\s+");
 	    StringBuilder nomeFormatado = new StringBuilder();
@@ -39,7 +41,29 @@ public class Validator {
 	        }
 	    }
 
-	    return nomeFormatado.toString().trim(); // Remove espaço extra no final
+	    return nomeFormatado.toString().trim(); // Removi o espaço extra no final
+	}
+	
+	public static void validarQuantidadeReserva(String quantidadeReservas) throws NumeroReservaInvalidoException {
+	
+		if (quantidadeReservas.isBlank()) {
+			throw new NumeroReservaInvalidoException("\n ⚠ A quantidade de reservas escolhidas para cadastrar não pode ser vazia! \n");
+		}
+		
+		if (!quantidadeReservas.matches("^\\d+$")) {;
+			throw new NumeroReservaInvalidoException("\n ⚠ A quantidade de reservas escolhidas para cadastrar não pode conter letras nem símbolos! \n");
+		}
+		
+		
+		// Quantidade de reservas a serem cadastradas por vez: MIN/MAX
+		
+		int quantidadeReservasInt = Integer.parseInt(quantidadeReservas); 
+		
+		if (quantidadeReservasInt > 5 || quantidadeReservasInt <= 0) {
+			throw new NumeroReservaInvalidoException("\n ⚠ A quantidade de reservas escolhidas para cadastrar deve ser entre 1 à 5 por vez! \n");
+		}
+		
+		
 	}
 	
 }

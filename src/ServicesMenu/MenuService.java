@@ -9,6 +9,7 @@ import Entities.Cliente;
 import Entities.MeioDeTransporte;
 import Entities.Reserva;
 import Exceptions.NomeInvalidoException;
+import Exceptions.NumeroReservaInvalidoException;
 import ServicesMetodoPagamento.MetodoPagamento;
 import ServicesMetodoPagamento.PagamentoCartaoCredito;
 import ServicesMetodoPagamento.PagamentoPix;
@@ -44,20 +45,36 @@ public class MenuService {
 				System.out.println(e.getMessage());
 			}
 		} 
+		
+		String numeroReservasString;
+		int numeroReservaInt;
+		while (true) {
 			
-		
-		
-		System.out.printf("%s, digite quantas reservas você irá realizar: ", cliente.getNome());
-		int numeroReservas = sc.nextInt();
-		sc.nextLine();
+			try {
+				System.out.printf("%s, digite quantas reservas você irá realizar: ", cliente.getNome());
+				numeroReservasString = sc.nextLine().trim();
+				
+				
+				Validator.validarQuantidadeReserva(numeroReservasString);
+				numeroReservaInt = Integer.parseInt(numeroReservasString);
+				
+				break;
+			}catch (NumeroReservaInvalidoException e) {
+				System.out.println(e.getMessage());
+				
+			}catch (NumberFormatException e) {
+				System.out.println("⚠ Erro!");
+			}
+			
+		}
 		System.out.println();
 		
-		for (int i = 0; i < numeroReservas; i++) {
+		for (int i = 0; i < numeroReservaInt; i++) {
 			System.out.printf("Dados da reserva [%d]: %n", i + 1);
 			System.out.print("Digite o destino de sua viagem: ");
 			String destino = sc.nextLine();
 			
-			System.out.print("Para quando é sua viagem ? (dd/MM/yyyy) ");
+			System.out.print("Digite a data da viagem (dd/MM/yyyy): ");
 			LocalDate data = LocalDate.parse(sc.nextLine(), dtf);
 			
 			System.out.print("Qual o meio de transporte (AVIÃO, ÔNIBUS, CARRO): ");
@@ -104,7 +121,7 @@ public class MenuService {
         			System.out.print("Digite o destino de sua viagem: ");
         			String destino = sc.nextLine();
         			
-        			System.out.print("Para quando é sua viagem ? (dd/MM/yyyy) ");
+        			System.out.print("Digite a data da viagem (dd/MM/yyyy): ");
         			LocalDate data = LocalDate.parse(sc.nextLine(), dtf);
         			
         			System.out.print("Qual o meio de transporte (AVIÃO, ÔNIBUS, CARRO): ");

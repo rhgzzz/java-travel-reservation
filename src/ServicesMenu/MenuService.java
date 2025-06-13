@@ -8,9 +8,11 @@ import Entities.CarrinhoDeReservas;
 import Entities.Cliente;
 import Entities.MeioDeTransporte;
 import Entities.Reserva;
+import Exceptions.NomeInvalidoException;
 import ServicesMetodoPagamento.MetodoPagamento;
 import ServicesMetodoPagamento.PagamentoCartaoCredito;
 import ServicesMetodoPagamento.PagamentoPix;
+import Utils.Validator;
 
 public class MenuService {
 
@@ -25,9 +27,25 @@ public class MenuService {
 
 	public void cadastroReserva() {	
 		
-		System.out.print("Digite o seu nome: ");
-		String nome = sc.nextLine();
-		cliente.setNome(nome);
+		while (true) {
+			try {
+				System.out.print("Digite o seu nome: ");
+				String nome = sc.nextLine();
+				
+				// Validei o nome
+				Validator.validarNome(nome);
+				
+				// Formatei o nome
+				nome = Validator.capitalizarNome(nome);
+				
+				cliente.setNome(nome);
+				break;
+			} catch (NomeInvalidoException e) {
+				System.out.println(e.getMessage());
+			}
+		} 
+			
+		
 		
 		System.out.printf("%s, digite quantas reservas você irá realizar: ", cliente.getNome());
 		int numeroReservas = sc.nextInt();

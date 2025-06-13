@@ -2,12 +2,14 @@ package ServicesMenu;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 
 import Entities.CarrinhoDeReservas;
 import Entities.Cliente;
 import Entities.MeioDeTransporte;
 import Entities.Reserva;
+import Exceptions.DataInvalidaException;
 import Exceptions.DestinoInvalidoException;
 import Exceptions.NomeInvalidoException;
 import Exceptions.NumeroReservaInvalidoException;
@@ -93,8 +95,22 @@ public class MenuService {
 				}
 			}
 			
-			System.out.print("Digite a data da viagem (dd/MM/yyyy): ");
-			LocalDate data = LocalDate.parse(sc.nextLine(), dtf);
+			LocalDate data;
+			String dataString;
+			while (true) {
+				try {
+					System.out.print("Digite a data da viagem (dd/MM/yyyy): ");
+					dataString = sc.nextLine().trim();
+					Validator.validarData(dataString);
+					
+					data = LocalDate.parse(dataString, dtf);
+					break;
+				} catch(DataInvalidaException e) {
+					System.out.println(e.getMessage());
+				} catch(DateTimeParseException e) {
+					System.out.println("\n ⚠️ A data definida não é válida no calendário. \n");
+				}
+			}
 			
 			System.out.print("Qual o meio de transporte (AVIÃO, ÔNIBUS, CARRO): ");
 			String transporteString = sc.nextLine().trim().toUpperCase();

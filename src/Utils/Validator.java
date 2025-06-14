@@ -2,6 +2,8 @@ package Utils;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.time.format.ResolverStyle;
 
 import Exceptions.DataInvalidaException;
 import Exceptions.DestinoInvalidoException;
@@ -91,22 +93,20 @@ public class Validator {
 	
 	public static void validarData(String data) throws DataInvalidaException {
 		
-		
-		
 		if (data.isBlank()) {
 			throw new DataInvalidaException("\n ⚠ A data definida não pode ser vazia! \n");
 		}
 		
 		if (!data.matches("^\\d{2}/\\d{2}/\\d{4}$")) {
-			throw new DataInvalidaException("\n ⚠ Data Inválida! Use o formato dd/MM/yyyy \n");
+			throw new DataInvalidaException("\n ⚠ Formato inválido! Use o formato dd/MM/yyyy \n");
 		}
 		
-		LocalDate dataConvertida = LocalDate.parse(data,DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-		
-		if (dataConvertida.isBefore(LocalDate.now())) {
-			throw new DataInvalidaException("\n ⚠ A data definida não pode ser anterior a data atual! \n");
-		}
-		
-		
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate dataConvertida = LocalDate.parse(data, dtf);
+	   
+	    if (dataConvertida.isBefore(LocalDate.now())) {
+	        throw new DataInvalidaException("⚠ A data definida não pode ser anterior à data atual.");
+	    }
+
 	}
 }

@@ -3,6 +3,7 @@ package ServicesMenu;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.time.format.ResolverStyle;
 import java.util.Scanner;
 
 import Entities.CarrinhoDeReservas;
@@ -24,7 +25,7 @@ public class MenuService {
 	Cliente cliente = new Cliente();
 	Reserva reserva = new Reserva();
 	CarrinhoDeReservas carrinhoDeReservas = new CarrinhoDeReservas();
-	DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+	DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy").withResolverStyle(ResolverStyle.STRICT);
 	
 	public MenuService() {
 	}
@@ -105,10 +106,11 @@ public class MenuService {
 					
 					data = LocalDate.parse(dataString, dtf);
 					break;
-				} catch(DataInvalidaException e) {
-					System.out.println(e.getMessage());
 				} catch(DateTimeParseException e) {
-					System.out.println("\n ⚠️ A data definida não é válida no calendário. \n");
+					System.out.println("⚠ A data definida é inexistente!");
+				
+				}catch(DataInvalidaException e) {
+					System.out.println(e.getMessage());
 				}
 			}
 			

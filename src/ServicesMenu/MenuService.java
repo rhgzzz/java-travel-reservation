@@ -1,5 +1,6 @@
 package ServicesMenu;
 
+import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -96,22 +97,57 @@ public class MenuService {
 				}
 			}
 			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			String[] testes = {
+				    // 1. Datas inválidas (inexistentes no calendário)
+				    "31/02/2026",    // Fevereiro não tem 31 dias
+				    "29/02/2025",    // 2025 não é bissexto
+				    "31/04/2025",    // Abril tem apenas 30 dias
+				    "00/05/2025",    // Dia zero
+				    "15/00/2025",    // Mês zero
+				    "32/01/2025",    // Dia 32 inválido
+				    "15/13/2025",    // Mês 13 inválido
+				    
+				    // 2. Datas anteriores à atual (hoje=15/06/2025)
+				    "14/06/2025",    // 1 dia antes
+				    "01/01/2024",    // Ano anterior
+				    
+				    // 3. Formatos inválidos
+				    "15-05-2025",    // Traços invés de barras
+				    "15052025",      // Sem separadores
+				    "15/05/25",      // Ano com 2 dígitos
+				    "15/MAIO/2025",  // Mês não numérico
+				    "  ",            // String vazia
+				    "abc",           // Texto não numérico
+				    
+				    // 4. Datas válidas (devem ser aceitas)
+				    "15/06/2025",    // Hoje
+				    "16/06/2025",    // Amanhã
+				    "29/02/2024",    // Ano bissexto
+				    "31/05/2025",    // Mês com 31 dias
+				    "01/01/2026"     // Ano novo
+				};
+			
 			LocalDate data;
-			String dataString;
-			while (true) {
-				try {
-					System.out.print("Digite a data da viagem (dd/MM/yyyy): ");
-					dataString = sc.nextLine().trim();
-					Validator.validarData(dataString);
-					
-					data = LocalDate.parse(dataString, dtf);
-					break;
-				} catch(DateTimeParseException e) {
-					System.out.println("⚠ A data definida é inexistente!");
-				
-				}catch(DataInvalidaException e) {
-					System.out.println(e.getMessage());
-				}
+			
+			for (String teste : testes) {
+			    try {
+			        System.out.println("\nTestando: " + teste);
+			        data = Validator.validarData(teste);
+			        System.out.println("✅ Data válida: " + data.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+			    } catch (DataInvalidaException e) {
+			        System.out.println("❌ Erro: " + e.getMessage());
+			    }
 			}
 			
 			System.out.print("Qual o meio de transporte (AVIÃO, ÔNIBUS, CARRO): ");
@@ -121,7 +157,7 @@ public class MenuService {
 			double precoBaseAleatorio = 50.0 + Math.random() * (1000 - 50.0);
 			precoBaseAleatorio = Math.round(precoBaseAleatorio * 100.0) / 100.0;
 			
-			reserva = new Reserva(destino, data, precoBaseAleatorio, transporte);
+			
 			
 			reserva.MostrarPrecoCalculado();
 			carrinhoDeReservas.adicionarReserva(reserva);

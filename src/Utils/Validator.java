@@ -1,6 +1,7 @@
 package Utils;
 
 import java.time.LocalDate;
+import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.format.ResolverStyle;
@@ -91,22 +92,36 @@ public class Validator {
 		}
 	}
 	
-	public static void validarData(String data) throws DataInvalidaException {
+	
+	public static LocalDate validarData(String data) throws DataInvalidaException {
 		
-		if (data.isBlank()) {
-			throw new DataInvalidaException("\n ⚠ A data definida não pode ser vazia! \n");
-		}
-		
-		if (!data.matches("^\\d{2}/\\d{2}/\\d{4}$")) {
-			throw new DataInvalidaException("\n ⚠ Formato inválido! Use o formato dd/MM/yyyy \n");
-		}
-		
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        LocalDate dataConvertida = LocalDate.parse(data, dtf);
-	   
-	    if (dataConvertida.isBefore(LocalDate.now())) {
-	        throw new DataInvalidaException("⚠ A data definida não pode ser anterior à data atual.");
+	    if (data == null || data.isBlank()) {
+	        throw new DataInvalidaException("\n ⚠ A data definida não pode ser vazia! \n");
 	    }
 
+	    if (!data.matches("^\\d{2}/\\d{2}/\\d{4}$")) {
+	        throw new DataInvalidaException("\n ⚠ Formato inválido! Use dd/MM/yyyy \n");
+	    }
+
+	    try {
+	        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/uuuu")
+	            .withResolverStyle(ResolverStyle.STRICT);
+	        
+	        LocalDate dataConvertida = LocalDate.parse(data, dtf);
+	        LocalDate hoje = LocalDate.now();
+
+	        if (dataConvertida.isBefore(hoje)) {
+	            throw new DataInvalidaException("\n ⚠ A data definida não pode ser anterior a data atual! | " + hoje.format(DateTimeFormatter.ofPattern("(dd/MM/yyyy) \n")));
+	        }
+
+	        return dataConvertida;
+	    } catch (DateTimeParseException e) {
+	        throw new DataInvalidaException("Data inexistente! Verifique se o dia/mês/ano são válidos.");
+	    }
 	}
-}
+		
+
+        
+	}
+		
+

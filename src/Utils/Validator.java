@@ -142,7 +142,7 @@ public class Validator {
     		MeioDeTransporte transporteConvertido = MeioDeTransporte.valueOf(transporteString);
     		
     	}catch (IllegalArgumentException e) {
-    		throw new TransporteInvalidoException("\n ⚠ Transporte definido inválido! O transporte deve ser (AVIÃO, ÔNIBUS, CARRO). \n");
+    		throw new TransporteInvalidoException("\n ⚠ Transporte definido inválido! Escolha entre (AVIÃO, ÔNIBUS, CARRO). \n");
     	}
 		
 		

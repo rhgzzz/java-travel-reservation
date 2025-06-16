@@ -34,7 +34,7 @@ public class MenuService {
 
 	
 	
-	public void cadastroReserva() {	
+	public void cadastroNome() {	
 		
 		// Cadastrando meu nome
 		while (true) {
@@ -54,14 +54,15 @@ public class MenuService {
 				System.out.println(e.getMessage());
 			}
 		} 
-		
+	}	
 		// Cadastrado a quantidade de reservas que posso fazer por vez!
+	public void cadastroReserva () {
 		
 		String numeroReservasString;
 		int numeroReservaInt;
 		while (true) {
 			try {
-				System.out.printf("%s, digite quantas reservas você irá realizar: ", cliente.getNome());
+				System.out.printf("%s, digite quantas reservas você adicionar ao carrinho: ", cliente.getNome());
 				numeroReservasString = sc.nextLine().trim();
 				
 				
@@ -113,12 +114,11 @@ public class MenuService {
 			}
 			
 			MeioDeTransporte transporte;
-			
 			while (true) {
 				try {
 					System.out.print("Qual o meio de transporte (AVIÃO, ÔNIBUS, CARRO): ");
 					String transporteString = Validator.validarTransporte(sc.nextLine().trim().toUpperCase()) ;
-	
+					
 					transporte = MeioDeTransporte.valueOf(transporteString);
 					break;
 				}catch (TransporteInvalidoException e) {
@@ -138,6 +138,7 @@ public class MenuService {
 			
 		}
 	}
+	
 	
 	public void mostrarMenuPrincipal() {
 		
@@ -161,33 +162,7 @@ public class MenuService {
                     break;
                     
                 case 2:
-                	System.out.println("Dados da reserva:");
-                	String destino;
-        			while (true) {
-        				try {
-        					System.out.print("Digite o destino de sua viagem: ");
-        					destino = sc.nextLine();
-        					
-        					Validator.validarDestino(destino);
-        					
-        					break;
-        				} catch(DestinoInvalidoException e) {
-        					System.out.println(e.getMessage());
-        				}
-        			}
-        			
-        			System.out.print("Digite a data da viagem (dd/MM/yyyy): ");
-        			LocalDate data = LocalDate.parse(sc.nextLine(), dtf);
-        			
-        			System.out.print("Qual o meio de transporte (AVIÃO, ÔNIBUS, CARRO): ");
-        			String transporteString = sc.nextLine().trim().toUpperCase();
-        			MeioDeTransporte transporte = MeioDeTransporte.valueOf(transporteString);
-        			
-        			double precoBaseAleatorio = 50.0 + Math.random() * (1000 - 50.0);
-        			precoBaseAleatorio = Math.round(precoBaseAleatorio * 100.0) / 100.0;
-        			
-                    cliente.getCarrinhoDeReservas().adicionarReserva(reserva = new Reserva(destino, data, precoBaseAleatorio, transporte));
-                    System.out.println();
+                	cadastroReserva();
                     System.out.println("Carrinho de reservas ATUALIZADO! \n");
                     mostrarMenuPrincipal();
                     break;

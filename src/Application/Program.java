@@ -8,6 +8,7 @@ public class Program {
 		
 		MenuService menuService = new MenuService();
 		menuService.cadastroNome();
+		menuService.cadastroReserva();
 		menuService.mostrarMenuPrincipal();
 		
 	}

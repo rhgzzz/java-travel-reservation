@@ -15,6 +15,7 @@ import Exceptions.DataInvalidaException;
 import Exceptions.DestinoInvalidoException;
 import Exceptions.NomeInvalidoException;
 import Exceptions.NumeroReservaInvalidoException;
+import Exceptions.TransporteInvalidoException;
 import ServicesMetodoPagamento.MetodoPagamento;
 import ServicesMetodoPagamento.PagamentoCartaoCredito;
 import ServicesMetodoPagamento.PagamentoPix;
@@ -97,73 +98,43 @@ public class MenuService {
 				}
 			}
 			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			String[] testes = {
-				    // 1. Datas inválidas (inexistentes no calendário)
-				    "31/02/2026",    // Fevereiro não tem 31 dias
-				    "29/02/2025",    // 2025 não é bissexto
-				    "31/04/2025",    // Abril tem apenas 30 dias
-				    "00/05/2025",    // Dia zero
-				    "15/00/2025",    // Mês zero
-				    "32/01/2025",    // Dia 32 inválido
-				    "15/13/2025",    // Mês 13 inválido
-				    
-				    // 2. Datas anteriores à atual (hoje=15/06/2025)
-				    "14/06/2025",    // 1 dia antes
-				    "01/01/2024",    // Ano anterior
-				    
-				    // 3. Formatos inválidos
-				    "15-05-2025",    // Traços invés de barras
-				    "15052025",      // Sem separadores
-				    "15/05/25",      // Ano com 2 dígitos
-				    "15/MAIO/2025",  // Mês não numérico
-				    "  ",            // String vazia
-				    "abc",           // Texto não numérico
-				    
-				    // 4. Datas válidas (devem ser aceitas)
-				    "15/06/2025",    // Hoje
-				    "16/06/2025",    // Amanhã
-				    "29/02/2024",    // Ano bissexto
-				    "31/05/2025",    // Mês com 31 dias
-				    "01/01/2026"     // Ano novo
-				};
-			
 			LocalDate data;
-			
-			for (String teste : testes) {
-			    try {
-			        System.out.println("\nTestando: " + teste);
-			        data = Validator.validarData(teste);
-			        System.out.println("✅ Data válida: " + data.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
-			    } catch (DataInvalidaException e) {
-			        System.out.println("❌ Erro: " + e.getMessage());
-			    }
+			while (true) {
+				try {
+					System.out.print("Digite a data da viagem (dd/MM/yyyy): ");
+					String dataString = sc.nextLine().trim();
+					Validator.validarData(dataString);
+					
+					data = Validator.validarData(dataString);
+					break;
+				}catch(DataInvalidaException e) {
+					System.out.println(e.getMessage());
+				}
 			}
 			
-			System.out.print("Qual o meio de transporte (AVIÃO, ÔNIBUS, CARRO): ");
-			String transporteString = sc.nextLine().trim().toUpperCase();
-			MeioDeTransporte transporte = MeioDeTransporte.valueOf(transporteString);
+			MeioDeTransporte transporte;
+			
+			while (true) {
+				try {
+					System.out.print("Qual o meio de transporte (AVIÃO, ÔNIBUS, CARRO): ");
+					String transporteString = Validator.validarTransporte(sc.nextLine().trim().toUpperCase()) ;
+	
+					transporte = MeioDeTransporte.valueOf(transporteString);
+					break;
+				}catch (TransporteInvalidoException e) {
+					System.out.println(e.getMessage());
+				}
+			}
 			
 			double precoBaseAleatorio = 50.0 + Math.random() * (1000 - 50.0);
 			precoBaseAleatorio = Math.round(precoBaseAleatorio * 100.0) / 100.0;
 			
-			
+			reserva = new Reserva(destino, data, precoBaseAleatorio, transporte);
 			
 			reserva.MostrarPrecoCalculado();
 			carrinhoDeReservas.adicionarReserva(reserva);
 			cliente.adicionarCarrinhoReserva(carrinhoDeReservas);
 			
-			System.out.println();
 			
 		}
 	}
@@ -191,8 +162,19 @@ public class MenuService {
                     
                 case 2:
                 	System.out.println("Dados da reserva:");
-        			System.out.print("Digite o destino de sua viagem: ");
-        			String destino = sc.nextLine();
+                	String destino;
+        			while (true) {
+        				try {
+        					System.out.print("Digite o destino de sua viagem: ");
+        					destino = sc.nextLine();
+        					
+        					Validator.validarDestino(destino);
+        					
+        					break;
+        				} catch(DestinoInvalidoException e) {
+        					System.out.println(e.getMessage());
+        				}
+        			}
         			
         			System.out.print("Digite a data da viagem (dd/MM/yyyy): ");
         			LocalDate data = LocalDate.parse(sc.nextLine(), dtf);

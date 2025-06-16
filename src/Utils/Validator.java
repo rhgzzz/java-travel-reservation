@@ -1,15 +1,19 @@
 package Utils;
 
+import java.text.Normalizer;
+import java.text.Normalizer.Form;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.format.ResolverStyle;
 
+import Entities.MeioDeTransporte;
 import Exceptions.DataInvalidaException;
 import Exceptions.DestinoInvalidoException;
 import Exceptions.NomeInvalidoException;
 import Exceptions.NumeroReservaInvalidoException;
+import Exceptions.TransporteInvalidoException;
 
 public class Validator {	
 	
@@ -120,8 +124,44 @@ public class Validator {
 	    }
 	}
 		
-
-        
-	}
+    public static String validarTransporte(String transporteString) throws TransporteInvalidoException {
+    	
+    	// Retirei os acentos caso possuir!
+    	transporteString = Normalizer.normalize(transporteString, Form.NFD)
+    			.replaceAll("[\\p{InCombiningDiacriticalMarks}]", "");
+    	
+    	if (transporteString.isBlank()) {
+    		throw new TransporteInvalidoException("\n ⚠ Transporte não pode estar vazio! \n");
+    	}
+    	
+    	if (!transporteString.matches("^[\\p{L}\\s]+$")) {
+			throw new TransporteInvalidoException("\n ⚠ Transporte não pode conter números nem símbolos! \n");
+		}
+    	
+    	try {
+    		MeioDeTransporte transporteConvertido = MeioDeTransporte.valueOf(transporteString);
+    		
+    	}catch (IllegalArgumentException e) {
+    		throw new TransporteInvalidoException("\n ⚠ Transporte definido inválido! O transporte deve ser (AVIÃO, ÔNIBUS, CARRO). \n");
+    	}
+		
+		
+    		
+    	
+    	
+    	
+    	
+    	
+    	
+    	 
+    	
+    	
+    	
+    	
+    	
+    	return transporteString;
+    }
+    
+}
 		
 

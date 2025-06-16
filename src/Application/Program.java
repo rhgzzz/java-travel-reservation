@@ -7,7 +7,7 @@ public class Program {
 	public static void main(String[] args) {
 		
 		MenuService menuService = new MenuService();
-		menuService.cadastroReserva();
+		menuService.cadastroNome();
 		menuService.mostrarMenuPrincipal();
 		
 	}

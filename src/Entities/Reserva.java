@@ -91,7 +91,7 @@ public class Reserva {
 				"Destino: " + destino + " | " +
 				 "Data: " + data.format(dtf) + " | " +
 				"Preço Base: R$" + precoBase + " | " +
-				 "Meio de Transporte: " + transporte + ")";
+				 "Meio de Transporte: " + transporte.getNome() + ")";
 	}
 
 	

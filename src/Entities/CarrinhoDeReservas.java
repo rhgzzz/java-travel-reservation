@@ -53,10 +53,8 @@ public class CarrinhoDeReservas {
 				carrinhoReservas.remove(indexAjustado);
 				System.out.println();
 				System.out.printf("Reserva [%d] removida com sucesso!%n", index);
-				System.out.println("Carrinho de reservas ATUALIZADO! \n");
-			} else {
-				System.out.println("Número da reserva inválido!");
-			}
+				System.out.print("Carrinho de reservas ATUALIZADO! \n");
+			} 
 	}
 	
 	public double calcularTotal() {

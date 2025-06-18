@@ -1,5 +1,6 @@
 package ServicesMenu;
 
+import java.io.OptionalDataException;
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -15,6 +16,8 @@ import Exceptions.DataInvalidaException;
 import Exceptions.DestinoInvalidoException;
 import Exceptions.NomeInvalidoException;
 import Exceptions.NumeroReservaInvalidoException;
+import Exceptions.OpcaoMenuInvalidaException;
+import Exceptions.OpcaoPagamentoInvalidaException;
 import Exceptions.TransporteInvalidoException;
 import ServicesMetodoPagamento.MetodoPagamento;
 import ServicesMetodoPagamento.PagamentoCartaoCredito;
@@ -141,65 +144,89 @@ public class MenuService {
 	
 	
 	public void mostrarMenuPrincipal() {
+		boolean loop = true;
 		
-		int opcao;
-		
-            System.out.println("\n========== MENU DE RESERVAS ==========");
-            System.out.println("1 - Ver carrinho de reservas");
-            System.out.println("2 - Adicionar nova reserva");
-            System.out.println("3 - Remover reserva do carrinho");
-            System.out.println("4 - Finalizar compra");
-            System.out.println("0 - Sair");
-            System.out.print("Escolha uma opção: ");
-            opcao = sc.nextInt();
-            sc.nextLine();
-            System.out.println();
-            
-            switch (opcao) {
-                case 1:
-                    cliente.getCarrinhoDeReservas().listarReservas();
-                    mostrarMenuPrincipal();
-                    break;
-                    
-                case 2:
-                	cadastroReserva();
-                    System.out.println("Carrinho de reservas ATUALIZADO! \n");
-                    mostrarMenuPrincipal();
-                    break;
-                    
-                case 3:
-                	System.out.print("Digite o número da reserva que você deseja remover: ");
-                    carrinhoDeReservas.removerReserva(sc.nextInt());
-                    System.out.println();
-                    mostrarMenuPrincipal();
-                    break;
-                case 4:
-                	System.out.println("1 - Cartão de crédito (10% de taxa)");
-                    System.out.println("2 - Pix (5% de desconto)");
-                    System.out.print("Escolha uma opção: ");
-                    int opcaoPagamento = sc.nextInt();
-                    System.out.println();
-                    MetodoPagamento metodoPagamento;
-                    switch(opcaoPagamento) {
-                    	case 1: 
-                    		metodoPagamento = new PagamentoCartaoCredito();
-                    		metodoPagamento.pagar(carrinhoDeReservas.calcularTotal());
-                    		break;
-                    	case 2: 
-                    		metodoPagamento = new PagamentoPix();
-                    		metodoPagamento.pagar(carrinhoDeReservas.calcularTotal());
-                    		break;
-                    }
-                	System.out.println();
-                    break;
-                case 0:
-                    System.out.println("✅ Encerrando o sistema. Até logo!");
-                    break;
-                    
-                default:
-                    System.out.println("⚠️ Opção inválida. Tente novamente.");
-            }
-            System.out.println();
+		while (loop) {
+			
+			int opcao = -1;
+			
+			while (true) {
+				System.out.println("\n========== MENU DE RESERVAS ==========");
+				System.out.println("1 - Ver carrinho de reservas");
+				System.out.println("2 - Adicionar nova reserva");
+				System.out.println("3 - Remover reserva do carrinho");
+				System.out.println("4 - Finalizar compra");
+				System.out.print("Escolha uma opção: ");
+
+				
+				try {
+					String opcaoString = sc.nextLine();
+					opcao = Validator.validarOpcaoMenu(opcaoString, cliente);
+					break;
+					
+				}catch (OpcaoMenuInvalidaException e) {
+					System.out.println(e.getMessage());
+					
+				}
+			}	
+			
+			System.out.println();
+			
+			switch (opcao) {
+			case 1:
+				cliente.getCarrinhoDeReservas().listarReservas();
+				break;
+				
+			case 2:
+				cadastroReserva();
+				System.out.print("Carrinho de reservas ATUALIZADO! \n");
+				break;
+				
+			case 3:
+				System.out.print("Digite o número da reserva que você deseja remover: ");
+				carrinhoDeReservas.removerReserva(sc.nextInt());
+				break;
+			case 4:
+				int opcaoPagamento;
+				while (true) {
+					System.out.println("1 - Cartão de crédito (10% de taxa)");
+					System.out.println("2 - Pix (5% de desconto)");
+					System.out.print("Escolha uma opção: ");
+					try {
+						opcaoPagamento = Validator.ValidarOpcaoPagamento(sc.nextLine());
+						break;
+					}catch (OpcaoPagamentoInvalidaException e) {
+						System.out.println(e.getMessage());
+						continue;
+					}
+				}
+				
+				
+				System.out.println();
+				
+				
+				MetodoPagamento metodoPagamento;
+				switch(opcaoPagamento) {
+				case 1: 
+					metodoPagamento = new PagamentoCartaoCredito();
+					metodoPagamento.pagar(carrinhoDeReservas.calcularTotal());
+					break;
+				case 2: 
+					metodoPagamento = new PagamentoPix();
+					metodoPagamento.pagar(carrinhoDeReservas.calcularTotal());
+					break;
+				}
+				
+				System.out.println();
+				
+				loop = false;
+				break;
+				
+			default:
+				System.out.println("⚠️ Opção inválida. Tente novamente.");
+			}
+		}
+
 
         
 	}

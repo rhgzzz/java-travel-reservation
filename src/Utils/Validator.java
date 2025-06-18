@@ -8,11 +8,14 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.format.ResolverStyle;
 
+import Entities.Cliente;
 import Entities.MeioDeTransporte;
 import Exceptions.DataInvalidaException;
 import Exceptions.DestinoInvalidoException;
 import Exceptions.NomeInvalidoException;
 import Exceptions.NumeroReservaInvalidoException;
+import Exceptions.OpcaoMenuInvalidaException;
+import Exceptions.OpcaoPagamentoInvalidaException;
 import Exceptions.TransporteInvalidoException;
 
 public class Validator {	
@@ -144,24 +147,60 @@ public class Validator {
     	}catch (IllegalArgumentException e) {
     		throw new TransporteInvalidoException("\n ⚠ Transporte definido inválido! Escolha entre (AVIÃO, ÔNIBUS, CARRO). \n");
     	}
-		
-		
-    		
-    	
-    	
-    	
-    	
-    	
-    	
-    	 
-    	
-    	
-    	
-    	
     	
     	return transporteString;
     }
     
+    public static int validarOpcaoMenu(String opcaoString, Cliente cliente) throws OpcaoMenuInvalidaException {
+    	
+    	if (opcaoString.isBlank()) {
+    		throw new OpcaoMenuInvalidaException("\n ⚠ A opção não pode ser nula/vazia! (Escolha um número do menu) \n");
+    	}
+    	
+    	if (!opcaoString.matches("^\\d+$")) {
+    		throw new OpcaoMenuInvalidaException("\n ⚠ A opção não pode conter letras nem símbolos! (Escolha um número do menu) \n");
+    	}
+    	
+    	int opcao = Integer.parseInt(opcaoString);
+    	
+    	if (opcao < 1 || opcao > 4) {
+    		throw new OpcaoMenuInvalidaException("\n ⚠ A opção deve ser um número entre (1 - 4)! (Escolha um número do menu) \n");
+    	}
+    	
+    	if (opcao == 1 && cliente.getCarrinhoDeReservas() == null) {
+    		throw new OpcaoMenuInvalidaException("\n ⚠ O seu carrinho está vazio! Adicione uma reserva primeiro digitando [2] \n");
+    	}
+    	else if (opcao == 3 && cliente.getCarrinhoDeReservas() == null) {
+    		throw new OpcaoMenuInvalidaException("\n ⚠ Ímpossivel remover uma reserva! Adicione uma reserva primeiro digitando [2] \n");
+    	}
+    	else if (opcao == 4 && cliente.getCarrinhoDeReservas() == null) {
+    		throw new OpcaoMenuInvalidaException("\n ⚠ Ímpossivel finalizar compra! Adicione uma reserva primeiro digitando [2] \n");
+    	}
+
+    	return opcao;
+    }
+    
+    public static int ValidarOpcaoPagamento(String opcaoString) throws OpcaoPagamentoInvalidaException{
+    	
+    	if (opcaoString.isBlank()) {
+    		throw new OpcaoPagamentoInvalidaException("\n ⚠ A opção não pode ser nula/vazia! (Escolha um número do menu) \n");
+    	}
+    	
+    	if(!opcaoString.matches("^\\d+$")) {
+    		throw new OpcaoPagamentoInvalidaException("\n ⚠ A opção não pode conter letras nem símbolos! (Escolha um número do menu) \n");
+    	}
+    	
+   
+    	int opcao = Integer.parseInt(opcaoString);
+    	
+    	if (opcao < 1 || opcao > 2) {
+    		throw new OpcaoPagamentoInvalidaException("\n ⚠ A opção deve ser um número entre (1 - 2)! (Escolha um número do menu) \n");
+    	}
+    	
+    	
+    	return opcao;
+    }
+    	
 }
 		
 

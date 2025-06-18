@@ -33,21 +33,34 @@ Projeto Java orientado a objetos para **gerenciar reservas de viagens**, com car
 
 ```
 src/
+├── Application/
+│   └── Program.java
 ├── Entities/
+│   ├── CarrinhoDeReservas.java
 │   ├── Cliente.java
-│   ├── Reserva.java
-│   └── CarrinhoDeReservas.java
-├── ServicesMenu/
+│   ├── MeioDeTransporte.java
+│   └── Reserva.java
+├── Exceptions/
+│   ├── DataInvalidaException.java
+│   ├── DestinoInvalidaException.java
+│   ├── NomeInvalidaException.java
+│   ├── NumeroReservaInvalidaException.java
+│   ├── OpcaoMenuInvalidaException.java
+│   ├── OpcaoPagamentoInvalidaException.java
+│   └── TransporteInvalidaException.java
+├── ServicesMeioDeTransporte/
+│   ├── MeioDeTransporte.java
+│   ├── TransporteAviao.java
+│   ├── TransporteCarro.java
+│   └── TransporteOnibus.java
+├── ServiceMenu/
 │   └── MenuService.java
 ├── ServicesMetodoPagamento/
-│   └── MetodoPagamento + Implementações
-├── ServicesMeioDeTransporte/
-│   └── MeioDeTransporte + Implementações
-├── Utils/
-│   ├── Validator.java
-│   └── ConsoleUtils.java
-└── Exceptions/
-    └── Todas as exceções personalizadas
+│   ├── MetodoPagamento.java
+│   ├── PagamentoCartaoCredito.java
+│   └── PagamentoPix.java
+└── Utils/
+    └── Validator.java
 ```
 ---
 

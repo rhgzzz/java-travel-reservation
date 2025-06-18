@@ -65,7 +65,7 @@ public class MenuService {
 		int numeroReservaInt;
 		while (true) {
 			try {
-				System.out.printf("%s, digite quantas reservas você adicionar ao carrinho: ", cliente.getNome());
+				System.out.printf("%s, digite quantas reservas você deseja adicionar ao carrinho: ", cliente.getNome());
 				numeroReservasString = sc.nextLine().trim();
 				
 				
@@ -95,6 +95,7 @@ public class MenuService {
 					destino = sc.nextLine();
 					
 					Validator.validarDestino(destino);
+					destino = Validator.capitalizarNome(destino);
 					
 					break;
 				} catch(DestinoInvalidoException e) {
@@ -144,9 +145,7 @@ public class MenuService {
 	
 	
 	public void mostrarMenuPrincipal() {
-		boolean loop = true;
 		
-		while (loop) {
 			
 			int opcao = -1;
 			
@@ -168,23 +167,28 @@ public class MenuService {
 					System.out.println(e.getMessage());
 					
 				}
-			}	
+			}
+				
 			
 			System.out.println();
 			
 			switch (opcao) {
 			case 1:
 				cliente.getCarrinhoDeReservas().listarReservas();
+				mostrarMenuPrincipal();
 				break;
 				
 			case 2:
 				cadastroReserva();
 				System.out.print("Carrinho de reservas ATUALIZADO! \n");
+				mostrarMenuPrincipal();
 				break;
 				
 			case 3:
 				System.out.print("Digite o número da reserva que você deseja remover: ");
 				carrinhoDeReservas.removerReserva(sc.nextInt());
+				sc.nextLine();
+				mostrarMenuPrincipal();
 				break;
 			case 4:
 				int opcaoPagamento;
@@ -219,15 +223,16 @@ public class MenuService {
 				
 				System.out.println();
 				
-				loop = false;
 				break;
 				
 			default:
 				System.out.println("⚠️ Opção inválida. Tente novamente.");
 			}
-		}
+			
+			
+		
 
 
-        
 	}
 }
+

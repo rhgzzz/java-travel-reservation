@@ -69,4 +69,8 @@ public class CarrinhoDeReservas {
 	public void limparCarrinho() {
 		carrinhoReservas.clear();
 	}
+	
+	public boolean estaVazio() {
+		return carrinhoReservas == null || carrinhoReservas.isEmpty();
+	}
 }

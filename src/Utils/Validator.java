@@ -3,7 +3,6 @@ package Utils;
 import java.text.Normalizer;
 import java.text.Normalizer.Form;
 import java.time.LocalDate;
-import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.format.ResolverStyle;
@@ -167,18 +166,24 @@ public class Validator {
     		throw new OpcaoMenuInvalidaException("\n ⚠ A opção deve ser um número entre (1 - 4)! (Escolha um número do menu) \n");
     	}
     	
-    	if (opcao == 1 && cliente.getCarrinhoDeReservas() == null) {
+    	// Verifiquei se o carrinho está vazio ou é nulo!
+    	boolean carrinhoInvalido = cliente.getCarrinhoDeReservas() == null 
+    			|| cliente.getCarrinhoDeReservas().estaVazio();
+    	
+    	if (opcao == 1 && carrinhoInvalido) {
     		throw new OpcaoMenuInvalidaException("\n ⚠ O seu carrinho está vazio! Adicione uma reserva primeiro digitando [2] \n");
     	}
-    	else if (opcao == 3 && cliente.getCarrinhoDeReservas() == null) {
+    	else if (opcao == 3 && carrinhoInvalido) {
     		throw new OpcaoMenuInvalidaException("\n ⚠ Ímpossivel remover uma reserva! Adicione uma reserva primeiro digitando [2] \n");
     	}
-    	else if (opcao == 4 && cliente.getCarrinhoDeReservas() == null) {
+    	else if (opcao == 4 && carrinhoInvalido) {
     		throw new OpcaoMenuInvalidaException("\n ⚠ Ímpossivel finalizar compra! Adicione uma reserva primeiro digitando [2] \n");
     	}
 
     	return opcao;
     }
+    
+    
     
     public static int ValidarOpcaoPagamento(String opcaoString) throws OpcaoPagamentoInvalidaException{
     	
